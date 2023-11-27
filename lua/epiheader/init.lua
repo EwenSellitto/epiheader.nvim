@@ -1,6 +1,5 @@
-local M = {} -- M stands for module, a naming convention
+local M = {}
 
--- Function to get the root directory name (where .git is located)
 local function get_root_dir_name()
   local root_dir = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
   if vim.v.shell_error ~= 0 then
@@ -10,7 +9,6 @@ local function get_root_dir_name()
   return root_dir:match "^.+/(.+)$"
 end
 
--- Function to get the comment string based on the filetype
 local function get_comment_string()
   local commentstring = vim.bo.commentstring
 
@@ -21,16 +19,15 @@ local function get_comment_string()
 
   local start_comment, end_comment = commentstring:match "^(.*)%%s(.*)$"
   if not end_comment or end_comment == "" then
-    end_comment = start_comment -- Use single line comment format for both start and end
+    end_comment = start_comment
   end
   return start_comment, end_comment
 end
 
--- Function to add the header
 function M.add_header()
   local year = os.date "%Y"
   local root_dir_name = get_root_dir_name()
-  local filename = vim.fn.expand "%:t" -- Only the current file name
+  local filename = vim.fn.expand "%:t"
   local start_comment, end_comment = get_comment_string()
   local spacer
 
