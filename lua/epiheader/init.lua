@@ -24,6 +24,16 @@ local function get_comment_string()
   return start_comment, end_comment
 end
 
+local function get_file_extension()
+    local filename = vim.fn.expand("%:t")
+    local split_name = vim.split(filename, "%.")
+    if #split_name > 1 then
+        return split_name[#split_name]
+    else
+        return ""
+    end
+end
+
 function M.add_header()
   local year = os.date "%Y"
   local root_dir_name = get_root_dir_name()
@@ -60,7 +70,8 @@ function M.add_header()
   end
   table.insert(header_lines, "")
 
-  if vim.bo.filetype == 'hpp' or vim.bo.filetype == 'h' then
+  local extension = get_file_extension()
+  if extension == "h" or extension == "hpp" then
     table.insert(header_lines, "#pragma once")
     table.insert(header_lines, "")
   end
