@@ -60,6 +60,11 @@ function M.add_header()
   end
   table.insert(header_lines, "")
 
+  if vim.bo.filetype == 'hpp' or vim.bo.filetype == 'h' then
+    table.insert(header_lines, "#pragma once"),
+    table.insert(header_lines, "")
+  end
+
   vim.api.nvim_buf_set_lines(0, 0, 0, false, header_lines)
 end
 
